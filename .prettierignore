@@ -1,0 +1,7 @@
+prisma
+build
+dist
+out
+pnpm-lock.yaml
+package-lock.json
+yarn.lock

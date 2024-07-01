@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "dev": "serve -p 8080 src",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "^3.3.2",
+    "serve": "^14.2.3"
+  }
+}

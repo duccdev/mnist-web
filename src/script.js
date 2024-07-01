@@ -56,7 +56,11 @@ function draw(event) {
   const x = Math.floor((event.clientX - rect.left) / scale);
   const y = Math.floor((event.clientY - rect.top) / scale);
 
-  canvasCtx.fillRect(x * scale, y * scale, scale, scale);
+  for (let i = -1; i <= 1; i++) {
+    for (let j = -1; j <= 1; j++) {
+      canvasCtx.fillRect((x + i) * scale, (y + j) * scale, scale, scale);
+    }
+  }
 }
 
 function stopDrawing() {
@@ -71,9 +75,18 @@ function getPixelData() {
 
   for (let y = 0; y < resolution; y++) {
     for (let x = 0; x < resolution; x++) {
-      const index = (y * scale * canvas.width + x * scale) * 4;
-      const pixelValue = imageData.data[index] > 0 ? 1 : 0;
-      pixels[y][x] = pixelValue;
+      for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+          const nx = x + i;
+          const ny = y + j;
+          if (nx >= 0 && nx < resolution && ny >= 0 && ny < resolution) {
+            const index = (ny * scale * canvas.width + nx * scale) * 4;
+            if (imageData.data[index] > 0) {
+              pixels[y][x] = 1;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -83,7 +96,7 @@ function getPixelData() {
 document.addEventListener("DOMContentLoaded", () => {
   canvas = document.getElementById("drawable");
   canvasCtx = canvas.getContext("2d");
-  scale = scale = canvas.width / resolution;
+  scale = canvas.width / resolution;
 
   canvas.addEventListener("mousedown", startDrawing);
   canvas.addEventListener("mousemove", draw);

@@ -1,6 +1,6 @@
 class Mnist {
   constructor() {
-    this.weights = Array.from({ length: 28 }, () => Array(28).fill(0));
+    this.weights = Array.from({ length: 10 }, () => Array(28).fill(0));
     this.bias = Array(10).fill(0);
     this.epoch = 0;
   }
@@ -12,20 +12,20 @@ class Mnist {
       throw new Error(`Failed to fetch ${modelUrl}: ${response.statusText}`);
     }
 
-    const modelFile = await response.json();
-    this.weights = modelFile.weights;
-    this.bias = modelFile.bias;
-    this.epoch = modelFile.epoch;
+    const model = await response.json();
+    this.weights = model.weights;
+    this.bias = model.bias;
+    this.epoch = model.epoch;
   }
 
   async predict(x) {
     let result = [];
 
     for (let i = 0; i < this.weights.length; i++) {
-      let sum = 0.0;
+      let sum = 0;
 
       for (let j = 0; j < this.weights[i].length; j++) {
-        sum += weights[j] * x[j];
+        sum += this.weights[i][j] * x[j];
       }
 
       result.push(sum + this.bias[i]);
@@ -37,6 +37,7 @@ class Mnist {
   }
 }
 
+let model;
 let canvas;
 let canvasCtx;
 let statusText;
@@ -65,12 +66,23 @@ function draw(event) {
   }
 }
 
-function stopDrawing() {
+async function stopDrawing() {
+  if (predicting) return;
+  const pixels = getPixelData().flat();
+  if (pixels.every((v) => v === 0)) return;
+
   drawing = false;
-  if (!predicting) {
-    statusText.innerText = "Status: Predicting";
-    predicting = true;
+  predicting = true;
+
+  if (!model) {
+    statusText.innerText = "Status: Loading model";
+    model = new Mnist();
+    await model.loadFrom("/model.json");
   }
+
+  statusText.innerText = "Status: Predicting";
+  const prediction = await model.predict(pixels);
+  console.log(prediction);
 }
 
 function clearCanvas() {

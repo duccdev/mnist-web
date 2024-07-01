@@ -69,9 +69,9 @@ function stopDrawing() {
 
 function getPixelData() {
   const imageData = canvasCtx.getImageData(0, 0, canvas.width, canvas.height);
-  const pixels = new Array(resolution)
-    .fill(null)
-    .map(() => new Array(resolution).fill(0));
+  const pixels = Array.from({ length: resolution }, () =>
+    Array(resolution).fill(0)
+  );
 
   for (let y = 0; y < resolution; y++) {
     for (let x = 0; x < resolution; x++) {

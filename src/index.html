@@ -11,16 +11,103 @@
   </head>
 
   <body>
-    <div><canvas id="drawable" width="280" height="280"></canvas></div>
-    <button id="clear-button" style="width: 100%">Clear</button>
-    <button id="log-pixel-data" style="width: 100%; margin-top: 6px">
-      Log pixel data
-    </button>
-    <p
-      id="status-text"
-      style="width: 100%; display: flex; justify-content: center"
-    >
-      Status: Awaiting input
-    </p>
+    <div style="display: flex">
+      <div>
+        <div><canvas id="drawable" width="280" height="280"></canvas></div>
+        <button id="clear-button" style="width: 100%">Clear</button>
+        <p
+          id="status-text"
+          style="width: 100%; display: flex; justify-content: center"
+        >
+          Status: Awaiting input
+        </p>
+      </div>
+      <div style="display: flex; flex-direction: column; margin-left: 8px">
+        <div style="display: flex; flex-direction: row; margin-bottom: 2px">
+          <div
+            style="display: flex; flex-direction: column; margin-right: 16px"
+          >
+            <div class="percentage-outer-square">
+              <div class="percentage-inner-square" id="one"></div>
+            </div>
+            <p style="width: 100%; display: flex; justify-content: center">1</p>
+          </div>
+          <div
+            style="display: flex; flex-direction: column; margin-right: 16px"
+          >
+            <div class="percentage-outer-square">
+              <div class="percentage-inner-square" id="two"></div>
+            </div>
+            <p style="width: 100%; display: flex; justify-content: center">2</p>
+          </div>
+          <div
+            style="display: flex; flex-direction: column; margin-right: 16px"
+          >
+            <div class="percentage-outer-square">
+              <div class="percentage-inner-square" id="three"></div>
+            </div>
+            <p style="width: 100%; display: flex; justify-content: center">3</p>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: row; margin-bottom: 2px">
+          <div
+            style="display: flex; flex-direction: column; margin-right: 16px"
+          >
+            <div class="percentage-outer-square">
+              <div class="percentage-inner-square" id="four"></div>
+            </div>
+            <p style="width: 100%; display: flex; justify-content: center">4</p>
+          </div>
+          <div
+            style="display: flex; flex-direction: column; margin-right: 16px"
+          >
+            <div class="percentage-outer-square">
+              <div class="percentage-inner-square" id="five"></div>
+            </div>
+            <p style="width: 100%; display: flex; justify-content: center">5</p>
+          </div>
+          <div
+            style="display: flex; flex-direction: column; margin-right: 16px"
+          >
+            <div class="percentage-outer-square">
+              <div class="percentage-inner-square" id="six"></div>
+            </div>
+            <p style="width: 100%; display: flex; justify-content: center">6</p>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: row; margin-bottom: 2px">
+          <div
+            style="display: flex; flex-direction: column; margin-right: 16px"
+          >
+            <div class="percentage-outer-square">
+              <div class="percentage-inner-square" id="seven"></div>
+            </div>
+            <p style="width: 100%; display: flex; justify-content: center">7</p>
+          </div>
+          <div
+            style="display: flex; flex-direction: column; margin-right: 16px"
+          >
+            <div class="percentage-outer-square">
+              <div class="percentage-inner-square" id="eight"></div>
+            </div>
+            <p style="width: 100%; display: flex; justify-content: center">8</p>
+          </div>
+          <div
+            style="display: flex; flex-direction: column; margin-right: 16px"
+          >
+            <div class="percentage-outer-square">
+              <div class="percentage-inner-square" id="nine"></div>
+            </div>
+            <p style="width: 100%; display: flex; justify-content: center">9</p>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column">
+          <div class="percentage-outer-square" style="width: 86%">
+            <div class="percentage-inner-square" id="zero"></div>
+          </div>
+          <p style="width: 91%; display: flex; justify-content: center">0</p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

@@ -41,6 +41,16 @@ let model;
 let canvas;
 let canvasCtx;
 let statusText;
+let zero;
+let one;
+let two;
+let three;
+let four;
+let five;
+let six;
+let seven;
+let eight;
+let nine;
 let drawing = false;
 let predicting = false;
 const resolution = 28;
@@ -59,11 +69,29 @@ function draw(event) {
   const x = Math.floor((event.clientX - rect.left) / scale);
   const y = Math.floor((event.clientY - rect.top) / scale);
 
-  for (let i = -1; i <= 1; i++) {
-    for (let j = -1; j <= 1; j++) {
-      canvasCtx.fillRect((x + i) * scale, (y + j) * scale, scale, scale);
+  canvasCtx.fillRect(x * scale, y * scale, scale, scale);
+}
+
+function clearCanvas() {
+  if (predicting) return;
+  canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function getPixelData() {
+  const imageData = canvasCtx.getImageData(0, 0, canvas.width, canvas.height);
+  const pixels = Array.from({ length: resolution }, () =>
+    Array(resolution).fill(0)
+  );
+
+  for (let y = 0; y < resolution; y++) {
+    for (let x = 0; x < resolution; x++) {
+      const index = (y * scale * canvas.width + x * scale) * 4;
+      const pixelValue = imageData.data[index] > 0 ? 1 : 0;
+      pixels[y][x] = pixelValue;
     }
   }
+
+  return pixels;
 }
 
 async function stopDrawing() {
@@ -82,38 +110,30 @@ async function stopDrawing() {
 
   statusText.innerText = "Status: Predicting";
   const prediction = await model.predict(pixels);
-  console.log(prediction);
-}
 
-function clearCanvas() {
-  if (predicting) return;
-  canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-}
+  zero.style.height = `${(prediction[0] * 100).toFixed(2)}%`;
+  one.style.height = `${(prediction[1] * 100).toFixed(2)}%`;
+  two.style.height = `${(prediction[2] * 100).toFixed(2)}%`;
+  three.style.height = `${(prediction[3] * 100).toFixed(2)}%`;
+  four.style.height = `${(prediction[4] * 100).toFixed(2)}%`;
+  five.style.height = `${(prediction[5] * 100).toFixed(2)}%`;
+  six.style.height = `${(prediction[6] * 100).toFixed(2)}%`;
+  seven.style.height = `${(prediction[7] * 100).toFixed(2)}%`;
+  eight.style.height = `${(prediction[8] * 100).toFixed(2)}%`;
+  nine.style.height = `${(prediction[9] * 100).toFixed(2)}%`;
 
-function getPixelData() {
-  const imageData = canvasCtx.getImageData(0, 0, canvas.width, canvas.height);
-  const pixels = Array.from({ length: resolution }, () =>
-    Array(resolution).fill(0)
-  );
+  let biggest = -9999;
+  let index = 0;
 
-  for (let y = 0; y < resolution; y++) {
-    for (let x = 0; x < resolution; x++) {
-      for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j <= 1; j++) {
-          const nx = x + i;
-          const ny = y + j;
-          if (nx >= 0 && nx < resolution && ny >= 0 && ny < resolution) {
-            const index = (ny * scale * canvas.width + nx * scale) * 4;
-            if (imageData.data[index] > 0) {
-              pixels[y][x] = 1;
-            }
-          }
-        }
-      }
+  for (let i = 0; i < prediction.length; i++) {
+    if (prediction[i] > biggest) {
+      biggest = prediction[i];
+      index = i;
     }
   }
 
-  return pixels;
+  statusText.innerText = `Number: ${index}, Confidence: ${(biggest * 100).toFixed(2)}%`;
+  predicting = false;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -131,7 +151,14 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("clear-button")
     .addEventListener("click", clearCanvas);
 
-  document
-    .getElementById("log-pixel-data")
-    .addEventListener("click", () => console.log(getPixelData()));
+  zero = document.getElementById("zero");
+  one = document.getElementById("one");
+  two = document.getElementById("two");
+  three = document.getElementById("three");
+  four = document.getElementById("four");
+  five = document.getElementById("five");
+  six = document.getElementById("six");
+  seven = document.getElementById("seven");
+  eight = document.getElementById("eight");
+  nine = document.getElementById("nine");
 });

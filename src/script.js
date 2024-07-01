@@ -69,7 +69,16 @@ function draw(event) {
   const x = Math.floor((event.clientX - rect.left) / scale);
   const y = Math.floor((event.clientY - rect.top) / scale);
 
-  canvasCtx.fillRect(x * scale, y * scale, scale, scale);
+  const startX = x * scale;
+  const startY = y * scale;
+  const endX = startX + scale;
+  const endY = startY + scale;
+
+  for (let i = startX - scale / 2; i < endX + scale / 2; i++) {
+    for (let j = startY - scale / 2; j < endY + scale / 2; j++) {
+      canvasCtx.fillRect(i, j, 1, 1);
+    }
+  }
 }
 
 function clearCanvas() {
@@ -86,7 +95,7 @@ function getPixelData() {
   for (let y = 0; y < resolution; y++) {
     for (let x = 0; x < resolution; x++) {
       const index = (y * scale * canvas.width + x * scale) * 4;
-      const pixelValue = imageData.data[index] > 0 ? 1 : 0;
+      const pixelValue = imageData.data[index] > 127 ? 1 : 0;
       pixels[y][x] = pixelValue;
     }
   }

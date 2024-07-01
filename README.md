@@ -2,10 +2,6 @@
 
 Full implementation of the MNIST model + pretrained network, all running within the browser
 
-# Notes
-
-The canvas is a little janky, so it might give the model incorrect pixel values and then the model predicts really badly
-
 # How to run
 
 ```

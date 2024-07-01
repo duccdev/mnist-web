@@ -39,7 +39,9 @@ class Mnist {
 
 let canvas;
 let canvasCtx;
+let statusText;
 let drawing = false;
+let predicting = false;
 const resolution = 28;
 let scale;
 
@@ -49,7 +51,7 @@ function startDrawing(event) {
 }
 
 function draw(event) {
-  if (!drawing) return;
+  if (!drawing || predicting) return;
 
   canvasCtx.fillStyle = "white";
   const rect = canvas.getBoundingClientRect();
@@ -65,6 +67,15 @@ function draw(event) {
 
 function stopDrawing() {
   drawing = false;
+  if (!predicting) {
+    statusText.innerText = "Status: Predicting";
+    predicting = true;
+  }
+}
+
+function clearCanvas() {
+  if (predicting) return;
+  canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function getPixelData() {
@@ -97,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas = document.getElementById("drawable");
   canvasCtx = canvas.getContext("2d");
   scale = canvas.width / resolution;
+  statusText = document.getElementById("status-text");
 
   canvas.addEventListener("mousedown", startDrawing);
   canvas.addEventListener("mousemove", draw);
@@ -105,9 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document
     .getElementById("clear-button")
-    .addEventListener("click", () =>
-      canvasCtx.clearRect(0, 0, canvas.width, canvas.height)
-    );
+    .addEventListener("click", clearCanvas);
 
   document
     .getElementById("log-pixel-data")

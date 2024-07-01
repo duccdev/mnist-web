@@ -5,7 +5,7 @@ class Mnist {
     this.epoch = 0;
   }
 
-  async load(modelUrl) {
+  async loadFrom(modelUrl) {
     const response = await fetch(modelUrl);
 
     if (!response.ok) {

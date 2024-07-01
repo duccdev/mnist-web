@@ -108,4 +108,8 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("click", () =>
       canvasCtx.clearRect(0, 0, canvas.width, canvas.height)
     );
+
+  document
+    .getElementById("log-pixel-data")
+    .addEventListener("click", () => console.log(getPixelData()));
 });
